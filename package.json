@@ -20,11 +20,12 @@
     "docs": "node docsgen.cjs",
     "lint": "eslint src",
     "test": "mocha",
+    "dtsg": "npx -p typescript tsc",
     "start": "NODE_ENV=development webpack serve",
     "build": "NODE_ENV=production webpack --progress",
     "minify": "NODE_ENV=production MINIMIZE=true webpack --progress",
     "compile": "babel -d lib/ src/",
-    "prepare": "npm run compile && npm run build && npm run minify",
+    "prepare": "npm run compile && npm run build && npm run minify && npm run dtsg",
     "watch": "babel --watch -d lib/ src/"
   },
   "author": "fchasen@gmail.com",
