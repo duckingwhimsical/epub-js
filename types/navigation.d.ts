@@ -1,38 +1,56 @@
-export interface NavItem {
-    id: string,
-    href: string,
-    label: string,
-    parent?: string,
-    subitems?: NavItem[]
+export default Navigation;
+/**
+ * Navigation Parser
+ * @link https://www.w3.org/TR/epub/#sec-nav
+ */
+declare class Navigation {
+    /**
+     * Landmarks
+     * @member {Landmarks} landmarks
+     * @memberof Navigation
+     * @readonly
+     */
+    readonly landmarks: Landmarks;
+    /**
+     * List of numbered pages
+     * @member {PageList} pageList
+     * @memberof Navigation
+     * @readonly
+     */
+    readonly pageList: PageList;
+    /**
+     * Table of Contents
+     * @member {Toc} toc
+     * @memberof Navigation
+     * @readonly
+     */
+    readonly toc: Toc;
+    /**
+     * Clear all navigation parts
+     */
+    clear(): void;
+    /**
+     * Parse navigation document
+     * @param {Document} doc html OR xhtml OR ncx
+     * @returns {Promise<Navigation>}
+     */
+    parse(doc: Document): Promise<Navigation>;
+    /**
+     * Load navigation object from JSON
+     * @param {object} data
+     * @returns {Promise<Navigation>}
+     */
+    load(data: object): Promise<Navigation>;
+    /**
+     * forEach pass through
+     * @param {Array} args
+     */
+    forEach(...args: any[]): void;
+    /**
+     * Destroy the Navigation object
+     */
+    destroy(): void;
 }
-
-export interface LandmarkItem {
-    type?: string,
-    href?: string,
-    label?: string
-}
-
-export default class Navigation {
-
-    constructor(xml: XMLDocument);
-
-    toc: NavItem[];
-    landmarks: LandmarkItem[];
-    length: number;
-
-    forEach(args: IArguments): void;
-    get(target: string): NavItem;
-    getByIndex(target: string): NavItem;
-    landmark(type: string): LandmarkItem;
-    load(json: string): NavItem[];
-    parse(xml: XMLDocument): void;
-
-    private parseNav(navHtml: XMLDocument): NavItem[];
-    private landmarkItem(item: Element): LandmarkItem;
-    private navItem(item: Element): NavItem;
-    private ncxItem(item: Element): NavItem;
-    private parseLandmarks(navHtml: XMLDocument): LandmarkItem[];
-    private parseNav(navHtml: XMLDocument): NavItem[];
-    private parseNcx(navHtml: XMLDocument): NavItem[];
-    private unpack(toc: NavItem[]): void;
-}
+import Landmarks from "./navigation/landmarks";
+import PageList from "./navigation/pagelist";
+import Toc from "./navigation/toc";

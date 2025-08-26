@@ -1,9 +1,53 @@
-export default class Defer {
-
-    constructor();
-
+export default Defer;
+/**
+ * Creates a new pending promise and provides methods to resolve or reject it.
+ */
+declare class Defer {
+    /**
+     * @member {string} id
+     * @memberof Defer
+     * @readonly
+     */
     readonly id: string;
-    readonly resolve: Function;
-    readonly reject: Function;
+    /**
+     * Dump for debug trace
+     * @member {object} dump
+     * @memberof Defer
+     */
+    dump: {};
+    /**
+     * A method to resolve the associated Promise with the value passed.
+     * If the promise is already settled it does nothing.
+     * @member {function} resolve
+     * @param {any} value : This value is used to resolve the promise
+     * If the value is a Promise then the associated promise assumes
+     * the state of Promise passed as value.
+     * @memberof Defer
+     * @readonly
+     */
+    readonly resolve: ((value: any) => void) | null;
+    /**
+     * A method to reject the associated Promise with the value passed.
+     * If the promise is already settled it does nothing.
+     * @member {function} reject
+     * @param {any} reason : The reason for the rejection of the Promise.
+     * Generally its an Error object. If however a Promise is passed, then
+     * the Promise itself will be the reason for rejection no matter
+     * the state of the Promise.
+     * @memberof Defer
+     * @readonly
+     */
+    readonly reject: ((reason?: any) => void) | null;
+    /**
+     * A newly created Pomise object.
+     * Initially in pending state.
+     * @member {Promise} promise
+     * @memberof Defer
+     * @readonly
+     */
     readonly promise: Promise<any>;
+    /**
+     * Dectroy the Defer object
+     */
+    destroy(): void;
 }
